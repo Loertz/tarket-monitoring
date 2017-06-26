@@ -1,0 +1,54 @@
+{
+	"ImportPath": "github.com/aureliensibiril/tarket-monitoring",
+	"GoVersion": "go1.8",
+	"GodepVersion": "v79",
+	"Packages": [
+		"./..."
+	],
+	"Deps": [
+		{
+			"ImportPath": "github.com/go-redis/redis",
+			"Comment": "v6.5.0",
+			"Rev": "e14976b254c5bc5f399dd0ae9314b1d02a176897"
+		},
+		{
+			"ImportPath": "github.com/go-redis/redis/internal",
+			"Comment": "v6.5.0",
+			"Rev": "e14976b254c5bc5f399dd0ae9314b1d02a176897"
+		},
+		{
+			"ImportPath": "github.com/go-redis/redis/internal/consistenthash",
+			"Comment": "v6.5.0",
+			"Rev": "e14976b254c5bc5f399dd0ae9314b1d02a176897"
+		},
+		{
+			"ImportPath": "github.com/go-redis/redis/internal/hashtag",
+			"Comment": "v6.5.0",
+			"Rev": "e14976b254c5bc5f399dd0ae9314b1d02a176897"
+		},
+		{
+			"ImportPath": "github.com/go-redis/redis/internal/pool",
+			"Comment": "v6.5.0",
+			"Rev": "e14976b254c5bc5f399dd0ae9314b1d02a176897"
+		},
+		{
+			"ImportPath": "github.com/go-redis/redis/internal/proto",
+			"Comment": "v6.5.0",
+			"Rev": "e14976b254c5bc5f399dd0ae9314b1d02a176897"
+		},
+		{
+			"ImportPath": "github.com/gorilla/websocket",
+			"Comment": "v1.2.0",
+			"Rev": "ea4d1f681babbce9545c9c5f3d5194a789c89f5b"
+		},
+		{
+			"ImportPath": "github.com/robfig/cron",
+			"Comment": "v1-53-gdf38d32",
+			"Rev": "df38d32658d8788cd446ba74db4bb5375c4b0cb3"
+		},
+		{
+			"ImportPath": "go4.org/syncutil",
+			"Rev": "034d17a462f7b2dcd1a4a73553ec5357ff6e6c6e"
+		}
+	]
+}
