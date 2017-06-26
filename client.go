@@ -9,6 +9,7 @@ import (
 	"github.com/gorilla/websocket"
 )
 
+// Websocket client configuration var
 const (
 	writeWait      = 10 * time.Second
 	pongWait       = 60 * time.Second
@@ -16,16 +17,20 @@ const (
 	maxMessageSize = 512
 )
 
+// Helpers var
 var (
 	newline = []byte{'\n'}
 	space   = []byte{' '}
 )
 
+// To standadize the websocket
 var upgrader = websocket.Upgrader{
 	ReadBufferSize:  1024,
 	WriteBufferSize: 1024,
 }
 
+// Client is the struct representing a websocket client.
+// It's an interface betweent the actual websocket and our app
 type Client struct {
 	pool *SocketPool
 	conn *websocket.Conn

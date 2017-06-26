@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -10,29 +9,27 @@ import (
 	"github.com/robfig/cron"
 )
 
-func main3() {
-	t := GetTarketService()
-	result, _ := t.GetRoomInfos(111)
-
-	fmt.Print(result)
-
-}
-
+// Rooms gather all monitoring process
 var Rooms []RoomWatcher
+
+// The pool for all the websocket client
 var pool *SocketPool
 
 func main() {
 
+	// We grab the webserver port from the environment and if none we set it at
+	// 8080 for local testing purpose
 	port := os.Getenv("PORT")
-
 	if port == "" {
 		port = "8080"
 	}
 
+	// We create one roomwatcher per room we need to monitor
 	for i := 111; i <= 116; i++ {
 		w := NewRoomWatcher(i)
 		Rooms = append(Rooms, w)
 	}
+
 	// Create and start the socket pool that will manage all clients
 	pool = NewSocketPool()
 	go pool.run()

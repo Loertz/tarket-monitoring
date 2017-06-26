@@ -7,14 +7,22 @@ import (
 	"github.com/go-redis/redis"
 )
 
+// KVStore stand for Key Value Store, it's an interface above the persitance engine
+// (here redis).
 type KVStore interface {
 	Read(string) (string, bool)
 	Write(string, []byte) bool
 	PrintDebug()
 }
 
-var currentKVStore KVStore = nil
+// currentKVStore is the store singleton
+var currentKVStore KVStore
 
+// GetKVStore is the factory function to access the store
+// It's kind of cool : if you are running the app in local
+// (ie : you don't have redis installed on your developpement
+// machine) it's going to use a dictionnary (in memory) as
+// KeyValue Store to mock the redis and allow you to debug
 func GetKVStore() KVStore {
 
 	if currentKVStore == nil {
@@ -25,7 +33,7 @@ func GetKVStore() KVStore {
 			// We don't have a redis url in the environment
 			// so we assume we are in a local environment
 			// instead of redis we will just use a Hash
-			l := NewLocalStore()
+			l := newLocalStore()
 			currentKVStore = l
 
 		} else {
@@ -43,7 +51,7 @@ func GetKVStore() KVStore {
 				log.Print("Can't connect to the redis URL")
 			}
 
-			r := RedisStore{}
+			r := redisStore{}
 			r.redis = client
 			currentKVStore = r
 		}
@@ -53,31 +61,31 @@ func GetKVStore() KVStore {
 
 }
 
-type LocalStore struct {
+type localStore struct {
 	dic map[string]string
 }
 
-func NewLocalStore() LocalStore {
+func newLocalStore() localStore {
 
-	l := LocalStore{}
+	l := localStore{}
 	l.dic = make(map[string]string)
 	return l
 }
 
-func (l LocalStore) Read(k string) (string, bool) {
+func (l localStore) Read(k string) (string, bool) {
 
 	r, ok := l.dic[k]
 	return r, ok
 
 }
 
-func (l LocalStore) Write(k string, v []byte) bool {
+func (l localStore) Write(k string, v []byte) bool {
 
 	l.dic[k] = string(v[:])
 	return true
 }
 
-func (l LocalStore) PrintDebug() {
+func (l localStore) PrintDebug() {
 
 	log.Println("================")
 	for k, v := range l.dic {
@@ -85,11 +93,11 @@ func (l LocalStore) PrintDebug() {
 	}
 }
 
-type RedisStore struct {
+type redisStore struct {
 	redis *redis.Client
 }
 
-func (r RedisStore) Read(k string) (string, bool) {
+func (r redisStore) Read(k string) (string, bool) {
 	val, err := r.redis.Get(k).Result()
 	if err != nil {
 		return "", false
@@ -97,7 +105,7 @@ func (r RedisStore) Read(k string) (string, bool) {
 	return val, true
 }
 
-func (r RedisStore) Write(k string, v []byte) bool {
+func (r redisStore) Write(k string, v []byte) bool {
 
 	err := r.redis.Set(k, v, 0).Err()
 	if err != nil {
@@ -106,6 +114,6 @@ func (r RedisStore) Write(k string, v []byte) bool {
 	return true
 }
 
-func (r RedisStore) PrintDebug() {
+func (r redisStore) PrintDebug() {
 
 }
