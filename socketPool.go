@@ -1,5 +1,6 @@
 package main
 
+// SocketPool is the struct that keep track of all Client connection
 type SocketPool struct {
 	clients    map[*Client]bool
 	broadcast  chan []byte
@@ -7,6 +8,7 @@ type SocketPool struct {
 	unregister chan *Client
 }
 
+// NewSocketPool : Factory for the socket pool
 func NewSocketPool() *SocketPool {
 	return &SocketPool{
 		broadcast:  make(chan []byte),

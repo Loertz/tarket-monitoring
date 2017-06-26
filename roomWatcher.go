@@ -5,6 +5,9 @@ import (
 	"strconv"
 )
 
+// Observation is the struct that represent the state of a room at a fixed time
+// it's also the stuct we export in JSON and send to the webclient through
+// the websocket
 type Observation struct {
 	Name            string
 	RoomNumber      string
@@ -15,7 +18,7 @@ type Observation struct {
 	BathRoomCount   int
 }
 
-func IsEventActif(event string) bool {
+func isEventActif(event string) bool {
 	switch event {
 	case
 		"BEDROOM",
@@ -26,18 +29,18 @@ func IsEventActif(event string) bool {
 	return false
 }
 
-func (o *Observation) UpdateWith(r RoomJSON) {
+func (o *Observation) updateWith(r RoomJSON) {
 
 	o.RoomNumber = strconv.Itoa(r.Room)
 	o.BathRoomCount = r.BathroomCount
 	o.LastEvent = r.LastEvent
 
-	if IsEventActif(o.LastEvent) {
+	if isEventActif(o.LastEvent) {
 		o.Activity = append(o.Activity, 1)
 		o.InactivityCount = 0
 	} else {
 		o.Activity = append(o.Activity, 0)
-		o.InactivityCount += 1
+		o.InactivityCount++
 	}
 
 	if o.InactivityCount >= 5 {
@@ -51,11 +54,14 @@ func (o *Observation) UpdateWith(r RoomJSON) {
 	}
 }
 
+// RoomWatcher is the struct who interface with all the remote update and
+// local storage logic
 type RoomWatcher struct {
 	number          int
 	LastObservation Observation
 }
 
+// NewRoomWatcher is the factory for RoomWatcher
 func NewRoomWatcher(number int) RoomWatcher {
 
 	r := RoomWatcher{}
@@ -68,6 +74,8 @@ func (r RoomWatcher) persistanceKey() string {
 	return strconv.Itoa(r.number)
 }
 
+// UpdateDataInStore ask for an update of the previous observation. It's keeping
+// track of changes in the key value store
 func (r *RoomWatcher) UpdateDataInStore() {
 
 	t := GetTarketService()
@@ -83,7 +91,7 @@ func (r *RoomWatcher) UpdateDataInStore() {
 		o = Observation{}
 	}
 
-	o.UpdateWith(result.Room)
+	o.updateWith(result.Room)
 	r.LastObservation = o
 
 	serialized, err := json.Marshal(o)

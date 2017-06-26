@@ -8,11 +8,13 @@ import (
 	"time"
 )
 
+// APIResponse is the Tarket wrapper for the json return
 type APIResponse struct {
 	IsDay bool     `json:"isDay"`
 	Room  RoomJSON `json:"room"`
 }
 
+// RoomJSON is the struct reprensenting the tarket JSON structure
 type RoomJSON struct {
 	Department              string    `json:"department"`
 	Room                    int       `json:"room"`
@@ -35,28 +37,30 @@ type RoomJSON struct {
 	LastEvent string `json:"lastEvent"`
 }
 
+// TarketService is the generic interface for the remote services
 type TarketService interface {
 	GetRoomInfos(int) (APIResponse, error)
 }
 
-var CurrentTarketService TarketService = nil
+var currentTarketService TarketService
 
+// GetTarketService return the singleton representing the tarket service
 func GetTarketService() TarketService {
-	if CurrentTarketService == nil {
-		CurrentTarketService = NewRemoteTarketService()
+	if currentTarketService == nil {
+		currentTarketService = newRemoteTarketService()
 	}
-	return CurrentTarketService
+	return currentTarketService
 }
 
-type RemoteTarketService struct {
+type remoteTarketService struct {
 	sessionID string
 	apiURL    string
 	client    *http.Client
 }
 
-func NewRemoteTarketService() RemoteTarketService {
+func newRemoteTarketService() remoteTarketService {
 
-	r := RemoteTarketService{}
+	r := remoteTarketService{}
 
 	// We set some default value for convenience, feel free to change them
 	r.apiURL = "http://front.recipe.fim-team.net/api/monitoring/room/FMDEV.500."
@@ -68,11 +72,11 @@ func NewRemoteTarketService() RemoteTarketService {
 	return r
 }
 
-func (t RemoteTarketService) GetRoomInfos(number int) (r APIResponse, err error) {
+func (t remoteTarketService) GetRoomInfos(number int) (r APIResponse, err error) {
 
 	// Create the request
 	url := fmt.Sprint(t.apiURL, number, "?forLastDayPeriod=false")
-	req, err := http.NewRequest("GET", url, nil)
+	req, _ := http.NewRequest("GET", url, nil)
 
 	// Generate the cookies, no need for AWSELB here. They just use JSESSIONID to authenticate
 	cookie := http.Cookie{Name: "JSESSIONID", Value: t.sessionID}
