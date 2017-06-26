@@ -65,10 +65,7 @@ func refreshDataFromAPI() {
 	log.Print("Cron runned")
 	for _, w := range Rooms {
 		w.UpdateDataInStore()
-		body, _ := json.Marshal(w)
+		body, _ := json.Marshal(w.LastObservation)
 		pool.broadcast <- body
 	}
-}
-
-func serveHome(res http.ResponseWriter, req *http.Request) {
 }

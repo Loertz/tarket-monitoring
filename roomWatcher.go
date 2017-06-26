@@ -26,7 +26,7 @@ func IsEventActif(event string) bool {
 	return false
 }
 
-func (o Observation) UpdateWith(r RoomJSON) {
+func (o *Observation) UpdateWith(r RoomJSON) {
 
 	o.RoomNumber = strconv.Itoa(r.Room)
 	o.BathRoomCount = r.BathroomCount
@@ -52,7 +52,8 @@ func (o Observation) UpdateWith(r RoomJSON) {
 }
 
 type RoomWatcher struct {
-	number int
+	number          int
+	LastObservation Observation
 }
 
 func NewRoomWatcher(number int) RoomWatcher {
@@ -67,24 +68,26 @@ func (r RoomWatcher) persistanceKey() string {
 	return strconv.Itoa(r.number)
 }
 
-func (r RoomWatcher) UpdateDataInStore() {
+func (r *RoomWatcher) UpdateDataInStore() {
 
 	t := GetTarketService()
 	result, _ := t.GetRoomInfos(r.number)
 
 	v, ok := GetKVStore().Read(r.persistanceKey())
 
+	var o Observation
+
 	if ok {
+		json.Unmarshal([]byte(v), &o)
+	} else {
+		o = Observation{}
+	}
 
-		var o Observation
-		err := json.Unmarshal([]byte(v), &o)
+	o.UpdateWith(result.Room)
+	r.LastObservation = o
 
-		if err == nil {
-			o.UpdateWith(result.Room)
-			serialized, err := json.Marshal(o)
-			if err == nil {
-				GetKVStore().Write(r.persistanceKey(), serialized)
-			}
-		}
+	serialized, err := json.Marshal(o)
+	if err == nil {
+		GetKVStore().Write(r.persistanceKey(), serialized)
 	}
 }

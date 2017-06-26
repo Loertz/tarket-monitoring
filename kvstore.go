@@ -10,6 +10,7 @@ import (
 type KVStore interface {
 	Read(string) (string, bool)
 	Write(string, []byte) bool
+	PrintDebug()
 }
 
 var currentKVStore KVStore = nil
@@ -53,28 +54,35 @@ func GetKVStore() KVStore {
 }
 
 type LocalStore struct {
-	dic map[string]interface{}
+	dic map[string]string
 }
 
 func NewLocalStore() LocalStore {
 
 	l := LocalStore{}
-	l.dic = make(map[string]interface{})
+	l.dic = make(map[string]string)
 	return l
 }
 
 func (l LocalStore) Read(k string) (string, bool) {
 
 	r, ok := l.dic[k]
-	s, ok := r.(string)
-	return s, ok
+	return r, ok
 
 }
 
 func (l LocalStore) Write(k string, v []byte) bool {
 
-	l.dic[k] = v
+	l.dic[k] = string(v[:])
 	return true
+}
+
+func (l LocalStore) PrintDebug() {
+
+	log.Println("================")
+	for k, v := range l.dic {
+		log.Println(k + " | " + v)
+	}
 }
 
 type RedisStore struct {
@@ -96,4 +104,8 @@ func (r RedisStore) Write(k string, v []byte) bool {
 		return false
 	}
 	return true
+}
+
+func (r RedisStore) PrintDebug() {
+
 }
