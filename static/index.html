@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <link rel="shortcut icon" href="static/image/favicon.ico">
+    <meta name = "viewport" content = "width = device-width, initial-scale = 1.0, maximum-scale = 1.0, user-scalable = no">
+    <title>Live Monitoring Demo</title>
+    <link href="static/css/application.css" rel="stylesheet" media="screen">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link href="static/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+
+  <body>
+  <div class="topnav" id="myTopnav">
+    <a id="acti-screen">Activité de nuit en temps réel</a>
+    <a id="log-screen" >Journal de Bord</a>
+    </div>
+        <!-- Add all page content inside this div if you want the side nav to push page content to the right (not used if you only want the sidenav to sit on top of the page -->
+    <div id="mySidenav" class="sidenav">
+      <div id ="event-title" >Événements</div>
+      <div id="eventbar"></div>
+      </div>
+
+    <div id="main">
+    <div id="chargement" class="place">Chargement en cours... </div>
+    <div id="nothing" class="place">Les residents sont calmes </div>
+    <div class="container-fluid" id="monitoring"> </div>
+    </div>
+
+
+
+
+  <script type="text/javascript" src="static/js/reconnecting-websocket.min.js"></script>
+  <script type="text/javascript" src="static/js/webapp.js"></script>
+  <script type="text/javascript" src="static/js/application.js"></script>
+
+  </body>
+
+</html>
