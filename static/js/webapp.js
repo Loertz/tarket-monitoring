@@ -34,11 +34,11 @@ function initiate(data) {
         var box = document.createElement("div");
         box.setAttribute("class", "floating-box");
         box.id = "room-" + val.RoomNumber.toString();
-        box.setAttribute('data', val.tmc);
+        box.setAttribute('data', val.Tmc);
 
         var info = document.createElement("div");
         info.setAttribute("class", "nom");
-        info.innerText = val.name + "\n" + "Chambre : " + val.RoomNumber.toString();
+        info.innerText = val.Name + "\n" + "Chambre : " + val.RoomNumber.toString();
 
         var icon = new Image(40, 40);
         icon.setAttribute("src", "static/image/chambreori.png");
@@ -56,32 +56,32 @@ function initiate(data) {
 
 function update_css(val) {
 
-    if (val.lastEvent == "FALL") {
+    if (val.LastEvent == "FALL") {
 
-        evenement(val.name +" a chuté")
+        evenement(val.Name +" a chuté")
 
     } ;
 
-    if (val.tmc<5) {
+    if (val.Tmc<5) {
 
-        $("#room-" + val.RoomNumber.toString()).attr('data', val.tmc);
+        $("#room-" + val.RoomNumber.toString()).attr('data', val.Tmc);
         $("#room-" + val.RoomNumber.toString()).toggle(false);
 
     } else {
 
         $("#room-" + val.RoomNumber.toString()).toggle(true);
-        $("#room-" + val.RoomNumber.toString()).attr("data", val.tmc);
-        // $("#tmc-" + val.RoomNumber.toString()).innerText = val.tmc;
+        $("#room-" + val.RoomNumber.toString()).attr("data", val.Tmc);
+        // $("#Tmc-" + val.RoomNumber.toString()).innerText = val.Tmc;
         /*bleu :#1D7FB2; vert : #8C8910; rouge : #CA1725; gris :#f2f2f2;*/
-        if (val.tmc == 30 ){
-                        evenement( val.name + " est en activité depuis 30 mn");
+        if (val.Tmc == 30 ){
+                        evenement( val.Name + " est en activité depuis 30 mn");
                     }
 
-        if (val.lastEvent == "BEDROOM") {
+        if (val.LastEvent == "BEDROOM") {
                 /* $("#room-" + val.RoomNumber.toString() ).style.backgroundColor = "#f2f2f2";*/
             changeImage("icon-" + val.RoomNumber.toString(), "static/image/chambreori.png");
 
-        } else if (val.lastEvent == "BATHROOM") {
+        } else if (val.LastEvent == "BATHROOM") {
 
 
             /*$("#room-" + val.RoomNumber.toString() ).style.backgroundColor = "#1D7FB2";*/
