@@ -80,6 +80,9 @@ function update_css(val) {
         if (val.LastEvent == "BEDROOM") {
                 /* $("#room-" + val.RoomNumber.toString() ).style.backgroundColor = "#f2f2f2";*/
             changeImage("icon-" + val.RoomNumber.toString(), "static/image/chambreori.png");
+        if (val.BathRoomCount == 8 ){
+                        evenement( val.Name + " est allé 8 fois en Salle de Bain");
+                    }
 
         } else if (val.LastEvent == "BATHROOM") {
 
