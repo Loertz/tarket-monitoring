@@ -18,18 +18,9 @@ $(document).ready(function() {
     console.log(message);
     var data = JSON.parse(message.data);
 
-    if (!initial) {
-      initiate(data);
-      initial = true;
-      console.log('init-update');
+    update_css(data);
+    console.log('update');
 
-    };
-
-    if (initial) {
-      update_css(data);
-      console.log('update');
-    };
-    console.log(initial);
   };
 
 
