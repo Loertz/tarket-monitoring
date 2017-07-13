@@ -19,7 +19,7 @@ $(document).ready(function() {
     var data = JSON.parse(message.data);
 
       if (!initial) {
-        var room = [{ RoomNumber:111, Name: 'Nom' },{ RoomNumber:112, Name: 'Nom' },{ RoomNumber:113, Name: 'Nom' },{ RoomNumber:114, Name: 'Nom' },{ RoomNumber:115, Name: 'Nom' },{ RoomNumber:116, Name: 'Nom' }];
+        var room = [{ RoomNumber:111, Name: 'Nom' },{ RoomNumber:112, Name: 'Nom' },{ RoomNumber:113, Name: 'Nom' },{ RoomNumber:114, Name: 'Nom' },{ RoomNumber:115, Name: 'Nom' },{ RoomNumber:0, Name: 'Nom' }];
         initiate(room);
         initial = true;
         console.log('init-update');

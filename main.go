@@ -25,7 +25,7 @@ func main() {
 	}
 
 	// We create one roomwatcher per room we need to monitor
-	for i := 111; i <= 116; i++ {
+	for i := 111; i <= 117; i++ {
 		w := NewRoomWatcher(i)
 		Rooms = append(Rooms, w)
 	}
