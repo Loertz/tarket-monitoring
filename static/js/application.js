@@ -18,8 +18,27 @@ $(document).ready(function() {
     console.log(message);
     var data = JSON.parse(message.data);
 
-    update_css(data);
-    console.log('update');
+      if (!initial) {
+        var room = [
+            { RoomNumber:111, name: 'Nom' },
+            { RoomNumber:112, name: 'Nom' },
+            { RoomNumber:113, name: 'Nom' },
+            { RoomNumber:114, name: 'Nom' },
+            { RoomNumber:115, name: 'Nom' },
+            { RoomNumber:116, name: 'Nom' }
+        ];
+        initiate(room);
+        initial = true;
+        console.log('init-update');
+
+      };
+
+      if (initial) {
+        update_css(data);
+        console.log('update');
+      };
+      console.log(initial);
+    };
 
   };
 

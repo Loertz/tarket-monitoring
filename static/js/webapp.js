@@ -28,29 +28,33 @@ function* idMaker(a) {
         yield index++;
 }
 
+function initiate(data) {
+    data.forEach(function create(val) {
+
+        var box = document.createElement("div");
+        box.setAttribute("class", "floating-box");
+        box.id = "room-" + val.n.toString();
+        box.setAttribute('data', val.tmc);
+
+        var info = document.createElement("div");
+        info.setAttribute("class", "nom");
+        info.innerText = val.name + "\n" + "Chambre : " + val.n.toString();
+
+        var icon = new Image(40, 40);
+        icon.setAttribute("src", "static/image/chambreori.png");
+        icon.setAttribute("style","right:0")
+        icon.id = "icon-" + val.n.toString();
+
+        box.appendChild(info);
+        box.appendChild(icon);
+
+        box.style.display = "flex";
+        monitoring.appendChild(box);
+
+    });
+};
 
 function update_css(val) {
-
-
-    var box = document.createElement("div");
-    box.setAttribute("class", "floating-box");
-    box.id = "room-" + val.RoomNumber.toString();
-    box.setAttribute('data', val.tmc);
-
-    var info = document.createElement("div");
-    info.setAttribute("class", "nom");
-    info.innerText = val.name + "\n" + "Chambre : " + val.RoomNumber.toString();
-
-    var icon = new Image(40, 40);
-    icon.setAttribute("src", "static/image/chambreori.png");
-    icon.setAttribute("style","right:0")
-    icon.id = "icon-" + val.RoomNumber.toString();
-
-    box.appendChild(info);
-    box.appendChild(icon);
-
-    box.style.display = "flex";
-    monitoring.appendChild(box);
 
     if (val.lastEvent == "FALL") {
 
