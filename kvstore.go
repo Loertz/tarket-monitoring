@@ -38,7 +38,7 @@ func GetKVStore() KVStore {
 
 		} else {
 
-			opt, err := redis.ParseURL("redis://:qwerty@localhost:6379/1")
+			opt, err := redis.ParseURL(redisURL)
 			if err != nil {
 				log.Print("Can't parse to the redis URL")
 			}
